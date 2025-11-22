@@ -1,9 +1,12 @@
 package dev.datlag.inkraft.fetcher.custom
 
+import android.content.Context
 import androidx.annotation.PluralsRes
 import dev.datlag.inkraft.fetcher.Fetcher
 
-class PluralFetcher internal constructor() : Fetcher.Custom<Int, String> {
+class PluralFetcher internal constructor(
+    private val context: Context
+) : Fetcher.Custom<Int, String> {
 
     operator fun get(
         @PluralsRes resource: Int,
