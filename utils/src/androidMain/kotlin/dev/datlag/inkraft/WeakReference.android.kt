@@ -1,0 +1,26 @@
+package dev.datlag.inkraft
+
+import java.lang.ref.WeakReference as JavaWeak
+
+actual class WeakReference<T : Any> actual constructor(value: T?) {
+
+    @Volatile
+    private var value: JavaWeak<T>? = value?.let { JavaWeak(it) }
+
+    actual fun getOrThrow(): T {
+        return value?.get() ?: throw IllegalStateException("Weak reference is null or collected")
+    }
+
+    actual fun getOrNull(): T? {
+        return value?.get()
+    }
+
+    actual fun set(value: T) {
+        this.value = JavaWeak(value)
+    }
+
+    actual fun clear() {
+        value?.clear()
+        value = null
+    }
+}

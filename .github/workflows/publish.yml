@@ -1,0 +1,29 @@
+name: Publish Package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish-utils:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Build
+        run: ./gradlew :utils:build
+
+      - name: Publish Package
+        run: ./gradlew :utils:publishAllPublicationsToGithubPackagesRepository
+        env:
+          ORG_GRADLE_PROJECT_githubPackagesUsername: ${{ secrets.PACKAGING_USERNAME }}
+          ORG_GRADLE_PROJECT_githubPackagesPassword: ${{ secrets.PACKAGING_PASSWORD }}
