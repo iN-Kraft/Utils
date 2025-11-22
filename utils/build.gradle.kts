@@ -188,15 +188,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.coroutines)
-        }
-
-        val weakRefMain by creating {
-            dependsOn(commonMain.get())
-
-            androidMain.orNull?.dependsOn(this)
-            jvmMain.orNull?.dependsOn(this)
-            nativeMain.orNull?.dependsOn(this)
-            jsMain.orNull?.dependsOn(this)
+            implementation(libs.reflection)
         }
 
         val javaMain by creating {
@@ -204,6 +196,14 @@ kotlin {
 
             androidMain.orNull?.dependsOn(this)
             jvmMain.orNull?.dependsOn(this)
+        }
+
+        val weakRefMain by creating {
+            dependsOn(commonMain.get())
+
+            javaMain.dependsOn(this)
+            nativeMain.orNull?.dependsOn(this)
+            jsMain.orNull?.dependsOn(this)
         }
 
         val systemMain by creating {

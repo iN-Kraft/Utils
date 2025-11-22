@@ -14,15 +14,9 @@ inline fun <T> suspendCatching(block: () -> T): Result<T> = try {
 }
 
 inline fun <R, T> Result<T>.mapSuspendCatching(transform: (value: T) -> R): Result<R> {
-    fun failResult(): Result<R> {
-        return Result.failure(
-            exceptionOrNull() ?: IllegalStateException("Called [mapSuspendCatching] without parent exception")
-        )
-    }
-
     return when {
-        isSuccess -> suspendCatching { transform(getOrNull() ?: return failResult()) }
-        else -> failResult()
+        isSuccess -> suspendCatching { transform(getOrNull() ?: return Result.failure(exceptionOrNull() ?: IllegalStateException("Called [mapSuspendCatching] without value to transform"))) }
+        else -> Result.failure(exceptionOrNull() ?: IllegalStateException("Called [mapSuspendCatching] without parent exception"))
     }
 }
 

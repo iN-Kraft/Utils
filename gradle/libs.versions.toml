@@ -8,6 +8,7 @@ versions = "0.53.0"
 
 [libraries]
 coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+reflection = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
 test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 
 [plugins]
