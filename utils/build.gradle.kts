@@ -18,45 +18,44 @@ kotlin {
     }
     jvm()
 
-    androidNativeX86 {
-        binaries {
-            sharedLib()
-            staticLib()
-        }
-    }
-
-    androidNativeX64 {
-        binaries {
-            sharedLib {
-                linkerOpts += listOf(
-                    "-Wl,-z,max-page-size=16384",
-                    "-Wl,-z,common-page-size=16384",
-                    "-v"
-                )
+    val androidNativeTargets = listOf(
+        androidNativeX86 {
+            binaries {
+                sharedLib()
+                staticLib()
             }
-            staticLib {
-                linkerOpts += listOf(
-                    "-Wl,-z,max-page-size=16384",
-                    "-Wl,-z,common-page-size=16384",
-                    "-v"
-                )
+        },
+        androidNativeX64 {
+            binaries {
+                sharedLib {
+                    linkerOpts += listOf(
+                        "-Wl,-z,max-page-size=16384",
+                        "-Wl,-z,common-page-size=16384",
+                        "-v"
+                    )
+                }
+                staticLib {
+                    linkerOpts += listOf(
+                        "-Wl,-z,max-page-size=16384",
+                        "-Wl,-z,common-page-size=16384",
+                        "-v"
+                    )
+                }
+            }
+        },
+        androidNativeArm32 {
+            binaries {
+                sharedLib()
+                staticLib()
+            }
+        },
+        androidNativeArm64 {
+            binaries {
+                sharedLib()
+                staticLib()
             }
         }
-    }
-
-    androidNativeArm32 {
-        binaries {
-            sharedLib()
-            staticLib()
-        }
-    }
-
-    androidNativeArm64 {
-        binaries {
-            sharedLib()
-            staticLib()
-        }
-    }
+    )
 
     linuxX64 {
         binaries {
@@ -176,6 +175,16 @@ kotlin {
 
     applyDefaultHierarchyTemplate()
 
+    androidNativeTargets.forEach { target ->
+        target.compilations.getByName("main") {
+            cinterops {
+                create("sysprop") {
+                    definitionFile.set(project.layout.projectDirectory.file("src/androidNativeMain/cinterop/sysprop.def"))
+                }
+            }
+        }
+    }
+
     sourceSets {
         commonMain.dependencies {
             implementation(libs.coroutines)
@@ -188,6 +197,20 @@ kotlin {
             jvmMain.orNull?.dependsOn(this)
             nativeMain.orNull?.dependsOn(this)
             jsMain.orNull?.dependsOn(this)
+        }
+
+        val javaMain by creating {
+            dependsOn(commonMain.get())
+
+            androidMain.orNull?.dependsOn(this)
+            jvmMain.orNull?.dependsOn(this)
+        }
+
+        val systemMain by creating {
+            dependsOn(commonMain.get())
+
+            javaMain.dependsOn(this)
+            androidNativeMain.orNull?.dependsOn(this)
         }
     }
 }
