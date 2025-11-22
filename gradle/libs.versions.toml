@@ -1,12 +1,16 @@
 [versions]
 lib = "1.0.0"
 agp = "8.13.1"
+android-annotations = "1.9.1"
+android-core = "1.7.0"
 coroutines = "1.10.2"
 kotlin = "2.2.21"
 publish = "0.35.0"
 versions = "0.53.0"
 
 [libraries]
+android-annotations = { group = "androidx.annotation", name = "annotation", version.ref = "android-annotations" }
+android-core = { group = "androidx.core", name = "core", version.ref = "android-core" }
 coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 reflection = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
 test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }

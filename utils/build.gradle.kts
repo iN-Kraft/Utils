@@ -191,6 +191,11 @@ kotlin {
             implementation(libs.reflection)
         }
 
+        androidMain.dependencies {
+            implementation(libs.android.annotations)
+            implementation(libs.android.core)
+        }
+
         val javaMain by creating {
             dependsOn(commonMain.get())
 
