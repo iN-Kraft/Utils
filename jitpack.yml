@@ -1,8 +1,8 @@
 jdk:
   - openjdk21
 before_install:
-  - echo "Commit: $GIT_COMMIT"
-  - echo "Version: $VERSION"
+  - echo "Commit $GIT_COMMIT"
+  - echo "Version $VERSION"
   - ./gradlew :utils:build
 install:
   - ./gradlew :utils:publishToMavenLocal
