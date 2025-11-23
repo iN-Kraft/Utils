@@ -42,7 +42,7 @@ import dev.datlag.inkraft.fetcher.resources.TextArrayFetcher
 import dev.datlag.inkraft.fetcher.resources.TypedArrayFetcher
 import dev.datlag.inkraft.fetcher.resources.XmlFetcher
 
-abstract class FetcherHolder internal constructor() {
+abstract class ResourceFetcher internal constructor() {
 
     internal abstract val context: Context
 

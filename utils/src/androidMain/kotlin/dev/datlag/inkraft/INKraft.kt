@@ -1,9 +1,9 @@
 package dev.datlag.inkraft
 
 import android.content.Context
-import dev.datlag.inkraft.fetcher.FetcherHolder
+import dev.datlag.inkraft.fetcher.ResourceFetcher
 
-actual class INKraft(override val context: Context) : FetcherHolder() {
+actual class INKraft(override val context: Context) : ResourceFetcher() {
 
     init {
         init(context)
@@ -75,7 +75,7 @@ actual class INKraft(override val context: Context) : FetcherHolder() {
         actual val isMacOS: Boolean = isMacOSNative
     }
 
-    companion object : FetcherHolder() {
+    companion object : ResourceFetcher() {
         private val contextInstance = WeakReference<Context>(null)
 
         override val context: Context
