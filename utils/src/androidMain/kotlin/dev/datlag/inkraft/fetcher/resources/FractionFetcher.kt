@@ -9,8 +9,8 @@ class FractionFetcher internal constructor(
 ) : Fetcher.Custom<Int, Float> {
 
     operator fun get(
-        @FractionRes fraction: Int,
+        @FractionRes resource: Int,
         base: Int,
         pbase: Int
-    ): Float = context.resources.getFraction(fraction, base, pbase)
+    ): Float = context.resources.getFraction(resource, base, pbase)
 }

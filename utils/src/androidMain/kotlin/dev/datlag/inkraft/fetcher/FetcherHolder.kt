@@ -1,6 +1,25 @@
 package dev.datlag.inkraft.fetcher
 
 import android.content.Context
+import android.content.res.Resources
+import android.os.Handler
+import android.util.TypedValue
+import androidx.annotation.AnimRes
+import androidx.annotation.ArrayRes
+import androidx.annotation.BoolRes
+import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.FontRes
+import androidx.annotation.FractionRes
+import androidx.annotation.IntegerRes
+import androidx.annotation.InterpolatorRes
+import androidx.annotation.LayoutRes
+import androidx.annotation.PluralsRes
+import androidx.annotation.RawRes
+import androidx.annotation.StringRes
+import androidx.annotation.XmlRes
+import androidx.core.content.res.ResourcesCompat
 import dev.datlag.inkraft.fetcher.compat.ColorFetcher
 import dev.datlag.inkraft.fetcher.compat.ColorStateListFetcher
 import dev.datlag.inkraft.fetcher.compat.DrawableFetcher
@@ -54,4 +73,40 @@ abstract class FetcherHolder internal constructor() {
     val xml: XmlFetcher by lazy { XmlFetcher(context) }
     val font: FontFetcher by lazy { FontFetcher(context) }
     val layout: LayoutFetcher by lazy { LayoutFetcher(context) }
+
+    fun string(@StringRes resource: Int) = string[resource]
+    fun string(@StringRes resource: Int, vararg formatArgs: Any) = string.get(resource, formatArgs = formatArgs)
+    fun plural(@PluralsRes resource: Int, quantity: Int) = plural[resource, quantity]
+    fun plural(@PluralsRes resource: Int, quantity: Int, vararg formatArgs: Any) = plural.get(resource, quantity, formatArgs = formatArgs)
+    fun text(@StringRes resource: Int) = text[resource]
+    fun text(@StringRes resource: Int, def: CharSequence) = text[resource, def]
+    fun text(@PluralsRes resource: Int, quantity: Int) = text[resource, quantity]
+
+    fun bool(@BoolRes resource: Int) = bool[resource]
+    fun dimension(@DimenRes resource: Int) = dimension[resource]
+    fun float(@DimenRes resource: Int) = float[resource]
+    fun fraction(@FractionRes resource: Int, base: Int, pbase: Int) = fraction[resource, base, pbase]
+    fun integer(@IntegerRes resource: Int) = integer[resource]
+
+    fun color(@ColorRes resource: Int) = color[resource]
+    fun colorStateList(@ColorRes resource: Int) = colorStateList[resource]
+
+    fun drawable(@DrawableRes resource: Int) = drawable[resource]
+    fun drawable(@DrawableRes resource: Int, theme: Resources.Theme?) = drawable[resource, theme]
+
+    fun animation(@AnimRes resource: Int) = animation[resource]
+    fun interpolator(@AnimRes @InterpolatorRes resource: Int) = interpolator[resource]
+
+    fun intArray(@ArrayRes resource: Int) = intArray[resource]
+    fun stringArray(@ArrayRes resource: Int) = stringArray[resource]
+    fun textArray(@ArrayRes resource: Int) = textArray[resource]
+    fun typedArray(@ArrayRes resource: Int) = typedArray[resource]
+
+    fun raw(@RawRes resource: Int) = raw[resource]
+    fun raw(@RawRes resource: Int, value: TypedValue) = raw[resource, value]
+    fun xml(@XmlRes resource: Int) = xml[resource]
+    fun font(@FontRes resource: Int) = font[resource]
+    @JvmOverloads
+    fun font(@FontRes resource: Int, fontCallback: ResourcesCompat.FontCallback, handler: Handler? = null) = font[resource, fontCallback, handler]
+    fun layout(@LayoutRes resource: Int) = layout[resource]
 }
