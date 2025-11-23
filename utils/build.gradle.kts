@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.multiplatform)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.publish)
+    `maven-publish`
 }
 
 val libGroup = "dev.datlag.inkraft"
@@ -216,6 +218,50 @@ kotlin {
 
             javaMain.dependsOn(this)
             androidNativeMain.orNull?.dependsOn(this)
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "githubPackages"
+            url = uri("https://maven.pkg.github.com/iN-Kraft/Utils")
+            credentials(PasswordCredentials::class)
+        }
+    }
+}
+
+mavenPublishing {
+    coordinates(
+        groupId = libGroup,
+        artifactId = libName,
+        version = libVersion
+    )
+
+    pom {
+        name.set("Utils")
+        description.set("Utility for every Kotlin Multiplatform project.")
+        inceptionYear.set("2025")
+        url.set("https://github.com/iN-Kraft/Utils")
+
+        licenses {
+            license {
+                name.set("GNU Lesser General Public License version 3")
+                url.set("https://opensource.org/license/lgpl-3-0")
+            }
+        }
+        developers {
+            developer {
+                id.set("DatL4g")
+                name.set("Jeff Retz")
+                url.set("https://github.com/DatL4g")
+            }
+        }
+        scm {
+            url.set("https://github.com/iN-Kraft/Utils")
+            connection.set("scm:git:git://github.com/iN-Kraft/Utils.git")
+            developerConnection.set("scm:git:ssh://git@github.com/iN-Kraft/Utils.git")
         }
     }
 }

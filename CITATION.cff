@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - given-names: "Jeff"
+    family-names: "Retz"
+    orcid: "https://orcid.org/0009-0003-2491-9169"
+title: "iNKraft Utils - Common utility for every project"
+version: 1.0.0
+date-released: 2025-22-11
+url: "https://github.com/iN-Kraft/Utils"
