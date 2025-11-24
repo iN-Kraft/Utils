@@ -6,20 +6,23 @@ import android.os.Handler
 import androidx.annotation.FontRes
 import androidx.core.content.res.ResourcesCompat
 import dev.datlag.inkraft.fetcher.Fetcher
+import kotlin.properties.ReadOnlyProperty
 
 class FontFetcher internal constructor(
     private val context: Context
 ) : Fetcher.Standard<Int, Typeface?> {
     override operator fun get(@FontRes resource: Int): Typeface? = ResourcesCompat.getFont(context, resource)
-
     operator fun get(
         @FontRes resource: Int,
         fontCallback: ResourcesCompat.FontCallback,
         handler: Handler?
     ): Unit = ResourcesCompat.getFont(context, resource, fontCallback, handler)
-
     operator fun get(
         @FontRes resource: Int,
         fontCallback: ResourcesCompat.FontCallback
     ) = get(resource, fontCallback, handler = null)
+
+    override fun lazy(@FontRes resource: Int): ReadOnlyProperty<Any?, Typeface?> = ReadOnlyProperty { _, _ ->
+        get(resource)
+    }
 }

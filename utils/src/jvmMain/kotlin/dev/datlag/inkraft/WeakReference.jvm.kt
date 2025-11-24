@@ -1,5 +1,6 @@
 package dev.datlag.inkraft
 
+import kotlin.reflect.KProperty
 import java.lang.ref.WeakReference as JavaWeak
 
 actual class WeakReference<T : Any> actual constructor(value: T?) {
@@ -22,5 +23,17 @@ actual class WeakReference<T : Any> actual constructor(value: T?) {
     actual fun clear() {
         value?.clear()
         value = null
+    }
+
+    actual operator fun getValue(thisRef: Any?, property: KProperty<*>): T? {
+        return getOrNull()
+    }
+
+    actual operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T?) {
+        if (value != null) {
+            set(value)
+        } else {
+            clear()
+        }
     }
 }

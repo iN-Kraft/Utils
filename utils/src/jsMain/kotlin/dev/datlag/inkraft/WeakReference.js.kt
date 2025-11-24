@@ -1,5 +1,7 @@
 package dev.datlag.inkraft
 
+import kotlin.reflect.KProperty
+
 actual class WeakReference<T : Any> actual constructor(value: T?) {
 
     private var value: JsWeakRef<T>? = value?.let { JsWeakRef(it) }
@@ -18,5 +20,17 @@ actual class WeakReference<T : Any> actual constructor(value: T?) {
 
     actual fun clear() {
         value = null
+    }
+
+    actual operator fun getValue(thisRef: Any?, property: KProperty<*>): T? {
+        return getOrNull()
+    }
+
+    actual operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T?) {
+        if (value != null) {
+            set(value)
+        } else {
+            clear()
+        }
     }
 }
