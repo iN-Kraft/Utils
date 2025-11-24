@@ -1,9 +1,10 @@
 package dev.datlag.inkraft
 
+import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 import java.lang.ref.WeakReference as JavaWeak
 
-actual class WeakReference<T : Any> actual constructor(value: T?) {
+actual class WeakReference<T : Any> actual constructor(value: T?) : ReadWriteProperty<Any?, T?> {
 
     @Volatile
     private var value: JavaWeak<T>? = value?.let { JavaWeak(it) }
@@ -25,11 +26,11 @@ actual class WeakReference<T : Any> actual constructor(value: T?) {
         value = null
     }
 
-    actual operator fun getValue(thisRef: Any?, property: KProperty<*>): T? {
+    actual override operator fun getValue(thisRef: Any?, property: KProperty<*>): T? {
         return getOrNull()
     }
 
-    actual operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T?) {
+    actual override operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T?) {
         if (value != null) {
             set(value)
         } else {
