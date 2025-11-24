@@ -80,6 +80,13 @@ actual object INKraft {
         }
     }
 
+    /**
+     * A utility object for locating standard system directories on the JVM.
+     *
+     * This object attempts to resolve paths using a combination of System Properties,
+     * Environment Variables, and common fallback locations. It ensures that the
+     * returned [Path] actually exists on the file system.
+     */
     data object Directories {
         private const val PROPERTY_USER_HOME = "user.home"
         private const val ENV_USER_HOME = "HOME"
@@ -91,12 +98,33 @@ actual object INKraft {
         private const val PROPERTY_TEMP_DIR = "java.io.tmpdir"
         private const val ENV_TEMP_DIR = "TEMP"
 
+        /**
+         * The current user's home directory.
+         *
+         * Resolution order:
+         * 1. System Property: `user.home`
+         * 2. Environment Variable: `HOME`
+         *
+         * @return The [Path] to the user directory if it exists, otherwise `null`.
+         */
         @JvmStatic
         val Home: Path? by lazy {
             resolveDirectory(systemProperty(PROPERTY_USER_HOME))
                 ?: resolveDirectory(systemEnv(ENV_USER_HOME))
         }
 
+        /**
+         * The installation directory of the active Java Runtime (JRE/JDK).
+         *
+         * Resolution order:
+         * 1. System Property: `java.home`
+         * 2. Environment Variable: `JAVA_HOME`
+         * 3. SDKMAN! current candidate path relative to [Home]
+         * 4. Linux default runtime: `/usr/lib/jvm/default-runtime`
+         * 5. Linux fallback runtime: `/usr/lib/jvm/java`
+         *
+         * @return The [Path] to the Java home directory if it exists, otherwise `null`.
+         */
         @JvmStatic
         val JavaHome: Path? by lazy {
             resolveDirectory(systemProperty(PROPERTY_JAVA_HOME))
@@ -106,6 +134,15 @@ actual object INKraft {
                 ?: resolveDirectory(PATH_JAVA_FALLBACK_RUNTIME)
         }
 
+        /**
+         * The system's temporary file directory.
+         *
+         * Resolution order:
+         * 1. System Property: `java.io.tmpdir`
+         * 2. Environment Variable: `TEMP`
+         *
+         * @return The [Path] to the temp directory if it exists, otherwise `null`.
+         */
         @JvmStatic
         val Temp: Path? by lazy {
             resolveDirectory(systemProperty(PROPERTY_TEMP_DIR))

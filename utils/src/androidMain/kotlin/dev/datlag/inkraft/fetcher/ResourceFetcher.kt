@@ -42,6 +42,18 @@ import dev.datlag.inkraft.fetcher.resources.TextArrayFetcher
 import dev.datlag.inkraft.fetcher.resources.TypedArrayFetcher
 import dev.datlag.inkraft.fetcher.resources.XmlFetcher
 
+/**
+ * An abstract facade that simplifies access to Android application resources.
+ *
+ * This class provides a unified API to retrieve Strings, Colors, Drawables, Dimensions,
+ * and other resource types without repeatedly accessing `context.resources`.
+ *
+ * **Access Patterns:**
+ * Resources can be accessed in three ways:
+ * 1. **Direct Method:** `ink.string(R.string.id)`
+ * 2. **Fetcher Operator:** `ink.string[R.string.id]`
+ * 3. **Lazy Delegate:** `val title by ink.string.lazy(R.string.id)`
+ */
 abstract class ResourceFetcher internal constructor() {
 
     internal abstract val context: Context
