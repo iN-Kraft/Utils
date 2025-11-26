@@ -57,3 +57,37 @@ inline fun <R, T : R> Result<T>.recoverSuspendCatching(transform: (exception: Th
         else -> suspendCatching { transform(exception) }
     }
 }
+
+/**
+ * Enables Go-style destructuring for the [Result] class to access the **value**.
+ *
+ * This functions as the first component in a destructuring declaration: `val (value, error) = result`.
+ *
+ * @return The encapsulated value if the result is a success, or `null` if the result is a failure.
+ * @see component2
+ */
+operator fun <T> Result<T>.component1(): T? = getOrNull()
+
+/**
+ * Enables Go-style destructuring for the [Result] class to access the **error**.
+ *
+ * This functions as the second component in a destructuring declaration: `val (value, error) = result`.
+ *
+ * @return The encapsulated [Throwable] exception if the result is a failure, or `null` if the result is a success.
+ *
+ * @sample
+ * // Usage example:
+ * val (data, err) = runCatching {
+ * // logic that may throw
+ * }
+ *
+ * if (err != null) {
+ * // Handle error
+ * return
+ * }
+ *
+ * // Handle data (Note: data is nullable T?)
+ * println(data)
+ * @see component1
+ */
+operator fun <T> Result<T>.component2(): Throwable? = exceptionOrNull()
