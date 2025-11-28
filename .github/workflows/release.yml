@@ -1,0 +1,40 @@
+name: GitHub Release Packages
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  release-utils:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Build
+        run: ./gradlew :utils:build
+
+      - name: Create Local Packages
+        run: ./gradlew :utils:publishAllPublicationsToLocalRepository
+
+      - name: Attach Packages
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            utils/build/release/**/*
+            !utils/build/release/**/*.md5
+            !utils/build/release/**/*.sha1
+            !utils/build/release/**/*.sha256
+            !utils/build/release/**/*.sha512

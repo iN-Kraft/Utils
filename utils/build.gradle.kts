@@ -229,6 +229,11 @@ publishing {
             url = uri("https://maven.pkg.github.com/iN-Kraft/Utils")
             credentials(PasswordCredentials::class)
         }
+
+        maven {
+            name = "local"
+            url = uri(layout.buildDirectory.dir("release"))
+        }
     }
 }
 
