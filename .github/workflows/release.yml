@@ -33,8 +33,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            utils/build/release/**/*
-            !utils/build/release/**/*.md5
-            !utils/build/release/**/*.sha1
-            !utils/build/release/**/*.sha256
-            !utils/build/release/**/*.sha512
+            utils/build/release/**/*.jar
+            utils/build/release/**/*.aar
+            utils/build/release/**/*.klib
+            utils/build/release/**/*.pom
+            utils/build/release/**/*.json
+            utils/build/release/**/*.module
