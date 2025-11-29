@@ -6,4 +6,6 @@ before_install:
 install:
   - echo "Restore Maven Repository from GitHub Release..."
   - wget -O repo.zip "https://github.com/iN-Kraft/Utils/releases/download/${VERSION}/utils-repo-${VERSION}.zip"
+  - mkdir -p ~/.m2/repository
   - unzip -o repo.zip -d ~/.m2/repository
+  - echo "✅ Artifacts restored."
