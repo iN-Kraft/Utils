@@ -3,6 +3,7 @@ jdk:
 before_install:
   - echo "Commit $GIT_COMMIT"
   - echo "Version $VERSION"
-  - ./gradlew :utils:build
 install:
-  - ./gradlew :utils:publishToMavenLocal
+  - echo "Restore Maven Repository from GitHub Release..."
+  - wget -O repo.zip "https://github.com/iN-Kraft/Utils/releases/download/${VERSION}/utils-repo-${VERSION}.zip"
+  - unzip -o repo.zip -d ~/.m2/repository

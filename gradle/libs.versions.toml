@@ -1,5 +1,5 @@
 [versions]
-lib = "1.0.0"
+lib = "1.1.0"
 agp = "8.13.1"
 android-annotations = "1.9.1"
 android-core = "1.17.0"
